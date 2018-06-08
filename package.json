@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/pauldeng/udp_ping_pong_server/issues"
   },
-  "homepage": "https://github.com/pauldeng/udp_ping_pong_server#readme"
+  "homepage": "https://github.com/pauldeng/udp_ping_pong_server#readme",
+  "dependencies": {
+    "jsrsasign": "^8.0.12"
+  }
 }
