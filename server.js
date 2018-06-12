@@ -12,7 +12,7 @@ const sigalg = 'SHA256withECDSA';
 const devices_db = {"00ff171207000037": {"prvkey":"4DD3E638E4BF5F45F17B98A1A960EAB37C80E73A9BE92057D1DBD34DC3EC9CD8", "pubkey":"0482F436D0F7C428D2DDA4FB44174A84AA1D7E310A004BD9E1A1D6777DF59426CCC3E3B39DEEC2D9A6EC831662A77F3BC9EAB7DD67AA15C8CA2F4CFB9D2FA90253"}};
 const server_keypair = {prvkey:"ddd6549dabd9564b6ea69c6881441238dca7287aeb3d163802376bf5f5ccc538", pubkey:"0483218cc2199c91fca84865781d41a40154017094764992fd729520e17afcc7107bf2c17216258d71adb83ed34eb4877a5ff83cbf359da9943b470a83bfda8fa2"};
 
-let reply_msg = Buffer.from('4e4200ff1712070000370102030405fb59', 'hex');
+let reply_msg = Buffer.from('4e4200ff1712070000370102030405', 'hex');
 
 // UDP Server
 udpServer.on('listening', () => {
@@ -83,12 +83,11 @@ udpServer.on('message', (message, remote) => {
     }
 
     console.log("calculate replay message crc");
-    let msg2 = Buffer.from("4e4200ff1712070000370102030405", "hex");
-    console.log('original msg2 ', msg2.toString('hex'));
-    console.log('crc16 ', crc.crc16modbus(msg2).toString(16));
+    console.log('reply_msg ', reply_msg.toString('hex'));
+    console.log('crc16 ', crc.crc16modbus(reply_msg).toString(16));
     
-    msg2 = Buffer.from((msg2.toString('hex') + crc.crc16modbus(msg2).toString(16)), "hex");
-    console.log("msg2 ", msg2.toString('hex'));
+    reply_msg = Buffer.from((reply_msg.toString('hex') + crc.crc16modbus(reply_msg).toString(16)), "hex");
+    console.log("reply_msg ", reply_msg.toString('hex'));
     
     //let reply_msg = Buffer.from('4e4200ff1712070000370102030405fb59', 'hex');
     console.log('UDP Reply  ', remote.address, remote.port, reply_msg.toString('hex'));
