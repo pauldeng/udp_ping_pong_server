@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/pauldeng/udp_ping_pong_server#readme",
   "dependencies": {
+    "crc": "^3.5.0",
     "jsrsasign": "^8.0.12"
   }
 }

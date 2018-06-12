@@ -4,6 +4,7 @@ const dgram = require('dgram');
 const udpServer = dgram.createSocket('udp4');
 const printIps = require('./get_ips');
 const jsrsasign = require('jsrsasign');
+const crc = require('crc');
 
 const curve = 'secp256r1';
 const sigalg = 'SHA256withECDSA';
@@ -72,6 +73,7 @@ udpServer.on('message', (message, remote) => {
         server_sign.updateString(msg1.toString('hex'));
         let server_sigValueHex = server_sign.sign();
         console.log('server_sigValueHex ', server_sigValueHex);
+        
     }
     //if device is not in the device_db, server replies not ok
     else{
@@ -80,6 +82,14 @@ udpServer.on('message', (message, remote) => {
         // create a error command
     }
 
+    console.log("calculate replay message crc");
+    let msg2 = Buffer.from("4e4200ff1712070000370102030405", "hex");
+    console.log('original msg2 ', msg2.toString('hex'));
+    console.log('crc16 ', crc.crc16modbus(msg2).toString(16));
+    
+    msg2 = Buffer.from((msg2.toString('hex') + crc.crc16modbus(msg2).toString(16)), "hex");
+    console.log("msg2 ", msg2.toString('hex'));
+    
     //let reply_msg = Buffer.from('4e4200ff1712070000370102030405fb59', 'hex');
     console.log('UDP Reply  ', remote.address, remote.port, reply_msg.toString('hex'));
     udpServer.send(reply_msg, remote.port, remote.address);
