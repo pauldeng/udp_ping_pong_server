@@ -92,6 +92,7 @@ udpServer.on('message', (message, remote) => {
     //let reply_msg = Buffer.from('4e4200ff1712070000370102030405fb59', 'hex');
     console.log('UDP Reply  ', remote.address, remote.port, reply_msg.toString('hex'));
     udpServer.send(reply_msg, remote.port, remote.address);
+    console.log('');
 });
 
 udpServer.bind(2888, '0.0.0.0');
