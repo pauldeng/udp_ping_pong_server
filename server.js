@@ -82,6 +82,7 @@ udpServer.on('message', (message, remote) => {
     //4 at last is the length of crc16 modbus
     var reply_msg_len = sprintf('%04x', reply_msg.length + 4 + outgoing_msg_payload.length + 4);
     reply_msg = reply_msg + reply_msg_len + outgoing_msg_payload;
+    reply_msg = Buffer.from(reply_msg, "hex");
 
     reply_msg = Buffer.from((reply_msg.toString('hex') + crc.crc16modbus(reply_msg).toString(16)), "hex");
 
